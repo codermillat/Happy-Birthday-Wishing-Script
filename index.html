@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Wishes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="body-container">
+    <!-- Add an audio element for background music -->
+    <audio id="backgroundMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Add a play button for the background music -->
+    <button id="playButton" class="animated">Play Music</button>
+    
+    
+    <div id="myDiv" class="container home-container">
+        <h1 id="title" class="animated">শুভ জন্মদিন এর শুভেচ্ছা</h1>
+        <div id="date-container">
+            <p id="date">DATE</p>
+          </div>          
+        <div id="nameInputContainer">
+            <p>Enter the name you want to wish a happy birthday:</p>
+            <input type="text" id="nameInput" class="animated">
+            <button id="generateWish" class="animated">Generate Wishes</button>
+        </div>
+        <div id="birthdayWish" class="hidden">
+            <h2 class="animated added-content">🎂 Happy Birthday, <span id="nameSpan"></span> 🎉</h2>
+            <div class="content">
+                <div class="quotes text-content">
+                    <h3>শুভ জন্মদিন:</h3>
+                    <ul>
+                        
+
+                        <li>মন খারাপের দিনটা তোমার না আসুক ফিরে,<br/>
+                            দুঃখগুলো দাও উড়িয়ে ওই আকাশের নীড়ে,<br/>
+                            অসীম সুখ বয়ে আসুক<br/>
+                            তোমার জীবন জুড়ে<br/>
+                            ~শুভ জন্মদিন~<br/></li>
+                    </ul>
+                </div>
+                <div class="image-container">
+                    <!-- Add your images here -->
+                    <img src="img2.gif" alt="Happy Birthday To You">
+                </div>
+                <div class="songs text-content">
+                    <h3>শুভ জন্মদিন: </h3>
+                    <ul>
+                        <li>"অভিমানের মেঘ ভাসিয়ে দাও অনেক দুরে,<br/>
+                            মন খারাপের দিনটা তোমার না আসুক ফিরে,<br/>
+                            দুঃখগুলো দাও উড়িয়ে ওই আকাশের নীড়ে,<br/>
+                            অসীম সুখ বয়ে আসুক<br/>
+                            তোমার জীবন জুড়ে<br/>
+                            ~শুভ জন্মদিন~"</li>
+                    </ul>
+                </div>
+                <div class="image-container">
+                    <!-- Add your images here -->
+                    <img src="img1.gif" alt="Happy Birthday To You">
+                </div>
+            </div>
+            <a id="shareButton" href="#" class="animated">
+                <img id="whatsappIcon" src="whatsapp-icon.png" alt="WhatsApp">
+                Share on WhatsApp
+            </a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+@font-face {
+    font-family: 'Manowar';
+    src: url('Manowar.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Alinur';
+    src: url('Alinur.ttf') format('truetype');
+}
+
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #3a65d4, #ff00eb);
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+h1, h2, h3 {
+    font-family: 'Pacifico', cursive;
+    font-weight: bold;
+}
+
+
+#nameInputContainer {
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+
+}
+
+input, button, p, a, ul, li {
+    margin: 10px;
+}
+
+button {
+    background-color: #ff758c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff7eb3;
+}
+
+
+#shareButton {
+    background-color: #25d366;
+    color: #fff;
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 5px;
+    height: 30px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+#shareButton:hover {
+    background-color: #075e54; /* Darker WhatsApp green */
+}
+
+#whatsappIcon {
+    width: 30px;
+    height: auto;
+    margin-right: 5px;
+    display: inline-block;
+    margin-top: 2px;
+}
+#shareButton span {
+    display: inline-block;
+    line-height: 1;
+}
+
+
+.quotes, .songs, .image-container {
+    margin: 20px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.image-container img {
+    max-width: 100%;
+}
+
+#playButton {
+    background-color: #ff002b;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px 15px;
+}
+
+#playButton:hover {
+    background-color: #ff7eb3;
+}
+
+#title {
+    margin-top: 30px;
+    font-size: 50px;
+    font-weight: bold;
+    animation: fadeinout 450ms infinite alternate;
+    text-shadow: 2px 2px red;
+    font-family: 'Manowar', 'Alinur', 'Pacifico', cursive;
+}
+.added-content {
+    margin-top: 10px; /* Adjust as needed */
+    animation: fadeinout 400ms infinite alternate;
+    text-shadow: 2px 2px rgb(4, 0, 255);
+}
+.text-content {
+    text-align: left;
+    align-content: center;
+    justify-content: center;
+    font-family: 'Alinur', 'Manowar', 'Pacifico', cursive;
+    font-size: 20px;
+}
+.body-container {
+    height: 100%;
+}
+
+.home-container {
+    padding: auto;
+    margin-top: 50%;
+    margin-bottom: 50%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#date-container {
+    text-align: center;
+    font-size: 23px;
+    color: #ff002b;
+    animation: fadeinout 500ms infinite alternate;
+    text-shadow: 2px 2px rgb(0, 0, 0);
+    font-family: 'Pacifico', cursive;
+}
+  @keyframes fadeinout {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.1;
+    }
+}
