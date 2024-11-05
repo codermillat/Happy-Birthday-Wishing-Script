@@ -30,3 +30,4 @@ Spread joy and birthday wishes to your friends and family by using this script. 
 ## License
 
 This project is under the MIT License. See [LICENSE](LICENSE) for details.
+@codermillat
