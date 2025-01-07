@@ -13,7 +13,7 @@ function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+  const INACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes for testing
 
   const handleLogout = useCallback(async () => {
     try {
@@ -51,10 +51,14 @@ function Admin() {
     }
 
     // Subscribe to auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       const isAuthed = !!session;
       setIsAuthenticated(isAuthed);
       setLoading(false);
+      if (!session) {
+        console.error('User session is null, logging out.');
+        await handleLogout();
+      }
       
       if (isAuthed) {
         resetTimer();
@@ -91,6 +95,7 @@ function Admin() {
         <Route path="media" element={<AdminMedia />} />
         <Route path="users" element={<AdminUsers />} />
         <Route path="settings" element={<AdminSettings />} />
+        <Route path="media" element={<AdminMedia />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </AdminLayout>
