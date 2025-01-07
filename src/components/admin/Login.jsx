@@ -13,12 +13,25 @@ export default function AdminLogin({ onLogin }) {
       setLoading(true);
       setError(null);
       
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       });
 
       if (error) throw error;
+      
+      // Check if user is an admin
+      const { data: adminData, error: adminError } = await supabase
+        .from('admins')
+        .select('id')
+        .eq('email', email)
+        .single();
+
+      if (adminError || !adminData) {
+        await supabase.auth.signOut();
+        throw new Error('Unauthorized access. Admin privileges required.');
+      }
+
       onLogin();
     } catch (error) {
       setError(error.message);

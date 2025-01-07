@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import OccasionModal from '../OccasionModal';
+import { supabase } from '../../lib/supabase';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const stats = [
     { name: 'Total Templates', value: '12' },
     { name: 'Active Templates', value: '8' },
@@ -12,22 +11,29 @@ export default function AdminDashboard() {
     { name: 'Recent Activities', value: '24' },
   ];
 
-  const handleCreateTemplate = () => {
-    setIsModalOpen(true);
+  const handleCreateTemplate = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('templates')
+        .insert([
+          {
+            name: 'New Template',
+            occasion_slug: 'birthday',
+            content: {
+              message: 'Happy Birthday! Wishing you a fantastic day filled with joy and happiness!'
+            }
+          }
+        ]);
+
+      if (error) throw error;
+      navigate('/admin/templates');
+    } catch (error) {
+      console.error('Error creating template:', error);
+    }
   };
 
   const handleUploadMedia = () => {
     navigate('/admin/media');
-  };
-
-  const handleSaveTemplate = async (formData) => {
-    try {
-      // Template creation logic will be handled by the OccasionModal
-      setIsModalOpen(false);
-      // Refresh the dashboard or show success message
-    } catch (error) {
-      console.error('Error creating template:', error);
-    }
   };
 
   return (
@@ -63,7 +69,6 @@ export default function AdminDashboard() {
             Recent Activity
           </h2>
           <div className="space-y-4">
-            {/* Activity items would go here */}
             <p className="text-gray-500 dark:text-gray-400">No recent activity</p>
           </div>
         </div>
@@ -76,26 +81,19 @@ export default function AdminDashboard() {
           <div className="space-y-4">
             <button 
               onClick={handleCreateTemplate}
-              className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+              className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
             >
               Create New Template
             </button>
             <button 
               onClick={handleUploadMedia}
-              className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors"
+              className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700"
             >
               Upload Media
             </button>
           </div>
         </div>
       </div>
-
-      {/* Template Creation Modal */}
-      <OccasionModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveTemplate}
-      />
     </div>
   );
 }

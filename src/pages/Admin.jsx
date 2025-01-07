@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import AdminLayout from '../components/AdminLayout';
 import AdminDashboard from '../components/admin/Dashboard';
 import AdminTemplates from '../components/admin/Templates';
@@ -12,21 +12,64 @@ import AdminLogin from '../components/admin/Login';
 function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+
+  const handleLogout = useCallback(async () => {
+    try {
+      await supabase.auth.signOut();
+      setIsAuthenticated(false);
+      navigate('/admin');
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  }, [navigate]);
 
   useEffect(() => {
-    checkSession();
-  }, []);
-
-  async function checkSession() {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
-    } catch (error) {
-      console.error('Error checking session:', error);
-    } finally {
-      setLoading(false);
+    if (!isSupabaseConfigured()) {
+      navigate('/setup');
+      return;
     }
-  }
+
+    let logoutTimer;
+    const resetTimer = () => {
+      if (logoutTimer) clearTimeout(logoutTimer);
+      if (isAuthenticated) {
+        logoutTimer = setTimeout(handleLogout, INACTIVITY_TIMEOUT);
+      }
+    };
+
+    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+    
+    if (isAuthenticated) {
+      // Set up event listeners
+      events.forEach(event => {
+        document.addEventListener(event, resetTimer);
+      });
+      // Initial timer setup
+      resetTimer();
+    }
+
+    // Subscribe to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      const isAuthed = !!session;
+      setIsAuthenticated(isAuthed);
+      setLoading(false);
+      
+      if (isAuthed) {
+        resetTimer();
+      }
+    });
+
+    // Cleanup function
+    return () => {
+      events.forEach(event => {
+        document.removeEventListener(event, resetTimer);
+      });
+      if (logoutTimer) clearTimeout(logoutTimer);
+      subscription.unsubscribe();
+    };
+  }, [navigate, handleLogout, isAuthenticated]);
 
   if (loading) {
     return (
